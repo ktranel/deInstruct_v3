@@ -1,3 +1,5 @@
+
+
 class User{
     constructor() {
         this.id = null;
@@ -5,6 +7,10 @@ class User{
         this.email = '';
         this.permissionId = null;
         this.statusId = null;
+    }
+
+    async createUser() {
+
     }
 }
 

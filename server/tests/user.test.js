@@ -1,5 +1,5 @@
-const mocha = require('mocha');
 const {expect} = require('chai');
+const faker = require('faker');
 
 // definitions
 const {PERMISSIONS} = require('../definitions/permissions');
@@ -27,7 +27,29 @@ describe('basic skeleton of a user', function() {
         expect(user).to.have.property('statusId');
     });
 
-    it('should invoke a new user', function() {
+    it('should create a new member user', async function() {
+        /*
+        * - should invoke the new user class
+        * - should create a user in database
+        * - should spread new data over user instance
+        */
+        const userInfo = {
+            name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+            email: faker.internet.email(),
+        }
 
+        const data = {
+          id: 1234,
+          name: userInfo.name,
+          email: userInfo.email,
+
+        };
+        const user = new User();
+        await user.createUser();
+        expect(user.id).to.not.be.null;
+        expect(user.name).to.equal(userInfo.name);
+        expect(user.email).to.equal(userInfo.email);
+        expect(user.permissionId).to.equal(PERMISSIONS.MEMBER);
+        expect(user.statusId).to.equal(STATUSES.USER.ACTIVE);
     });
 });
