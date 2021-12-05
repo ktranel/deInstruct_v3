@@ -1,4 +1,4 @@
-
+const db = require('../models');
 
 class User{
     constructor() {
@@ -9,8 +9,13 @@ class User{
         this.statusId = null;
     }
 
-    async createUser() {
-
+    async createUser(obj) {
+        const created = await db.users.create(obj);
+        this.id = created.id;
+        this.name = created.name;
+        this.email = created.email;
+        this.permissionId = created.permissionId;
+        this.statusId = created.statusId;
     }
 }
 
