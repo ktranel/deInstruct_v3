@@ -10,6 +10,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// routes
+app.use('/open', require('./routes/openRoutes/userRoutes'));
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
