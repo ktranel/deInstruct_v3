@@ -2,6 +2,8 @@ const createError = require('http-errors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const {Logger} = require('./utilities/logger');
+const {nodeEnv} = require('./config/config');
 
 const app = express();
 
@@ -19,20 +21,28 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-// @TODO refactor when logger is added
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = nodeEnv === 'development' ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  console.log(err);
+  if (nodeEnv === 'development') console.log(err);
+  const logs = new Logger();
+  logs.error(err, {
+    url: req.originalUrl,
+    body: req.body,
+    query: req.query,
+    params: req.params,
+    user: req.user ? req.user.id : req.user,
+  });
 });
 
-// @TODO refactor when logger is added
 process.on('unhandledRejection', error => {
-  console.log(error);
+  if (nodeEnv === 'development') console.log(error);
+  const logs = new Logger();
+  logs.error(err);
 });
 
 module.exports = app;
