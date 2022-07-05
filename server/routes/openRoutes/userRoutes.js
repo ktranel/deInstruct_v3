@@ -4,15 +4,19 @@ const router = express.Router();
 // utilities
 const responseHandler = require('../../utilities/responseHandler');
 
+// controllers
+const {User} = require('../../controllers/user');
+
 /*
-route to sign up a member
-@body
- - name: string
- - email: string
- - password: string
+route to get a user
  */
-router.post('/signup', responseHandler(async => {
-    return 'test 2';
+router.get('/', responseHandler(async (req) => {
+    if (!req.user) return null;
+
+    const {id} = req.user;
+    const user1 = new User({id});
+    await user1.getUser()
+    return user1;
 }));
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const { Logger } = require('../utilities/logger');
-const { VALIDATION, ERROR } = require('../definitions/errors');
+const { VALIDATION, ERROR, MOBILE, WEB } = require('../definitions/errors');
 
 module.exports = (fn) => (req, res, next) => {
     const logger = new Logger();
@@ -35,6 +35,20 @@ module.exports = (fn) => (req, res, next) => {
                     description: 'Status 400 Validation Error'
                 });
                 return res.status(400).json({ error: error.message });
+            }
+            if (error.type === WEB) {
+                logger.warn(error, {
+                    user: req.user ? req.user.id : req.user,
+                    description: 'Web Error Thrown'
+                });
+                return res.status(200).json({ error: error.message });
+            }
+            if (error.type === MOBILE) {
+                logger.warn(error, {
+                    user: req.user ? req.user.id : req.user,
+                    description: 'Mobile Error Thrown'
+                });
+                return res.status(200).json({ error: error.message });
             }
             if (error.type === ERROR) {
                 if (req.password) delete req.password;

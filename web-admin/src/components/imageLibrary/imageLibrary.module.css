@@ -1,0 +1,93 @@
+.cardsContainer{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -7px;
+    height: 300px;
+    overflow: auto;
+}
+.cardsContainer .card{
+    width: 25%;
+    height: 150px;
+    padding: 0 7px 14px 7px;
+    cursor: pointer;
+}
+.cardsContainer .card .cardImg{
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    position: relative;
+}
+.cardsContainer .cardOverlay{
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+    color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-end;
+    opacity: 0;
+    transition: opacity .3s ease;
+    padding: 5px;
+}
+.cardsContainer .cardOverlay.show{
+    opacity: 1;
+}
+.focusBox{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    padding: 15px 50px 70px 50px;
+    background-color: rgba(0,0,0,.95);
+}
+.focusBox .focusButtons{
+    position: absolute;
+    color: #fff;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+.focusBox .focusButtons button{
+    border: none;
+    background: none;
+}
+.focusBox .focusButtons svg{
+    width: 20px;
+    height: auto;
+    fill: #fff;
+}
+.focusBox .img{
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+}
+.focusBox .focusName{
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+}
+.focusBox .focusName input{
+    background: transparent;
+    color: #fff;
+    margin-right: 15px;
+}
+.headingRow{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}

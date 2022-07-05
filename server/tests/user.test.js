@@ -1,5 +1,5 @@
 const { expect } = require("chai");
-const faker = require("faker");
+const {faker} = require('@faker-js/faker');
 const sinon = require('sinon');
 const db = require('../models');
 
@@ -61,5 +61,61 @@ describe("basic skeleton of a user", function () {
     expect(user.permissionId).to.equal(PERMISSIONS.MEMBER);
     expect(user.statusId).to.equal(STATUSES.USER.ACTIVE);
     db.users.create.restore();
+  });
+
+  it("should find a user", async function () {
+    /*
+     * - should invoke the new user class
+     * - should locate a user in the database
+     * - should spread new data over user instance
+     */
+
+    const data = {
+      id: faker.datatype.uuid(),
+      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+      email: faker.internet.email(),
+      permissionId: PERMISSIONS.ADMIN,
+      statusId: STATUSES.USER.ACTIVE,
+      createdAt: new Date().toISOString(),
+    };
+
+    //stubs
+    const findStub = sinon.stub(db.users, 'findOne').returns(Promise.resolve(data));
+    const user = new User();
+    await user.getUser({email: data.email});
+    expect(findStub.callCount).to.equal(1);
+
+    expect(user.id).to.equal(data.id);
+    expect(user.name).to.equal(data.name);
+    expect(user.email).to.equal(data.email);
+    expect(user.permissionId).to.equal(PERMISSIONS.ADMIN);
+    expect(user.statusId).to.equal(STATUSES.USER.ACTIVE);
+    db.users.findOne.restore();
+  });
+
+  it("should get a users password", async function () {
+    /*
+     * - should invoke the new user class
+     * - should get a users password
+     */
+
+    const data = {
+      id: faker.datatype.uuid(),
+      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+      email: faker.internet.email(),
+      permissionId: PERMISSIONS.ADMIN,
+      statusId: STATUSES.USER.ACTIVE,
+      createdAt: new Date().toISOString(),
+      password: faker.internet.password(36),
+    };
+
+    //stubs
+    const findStub = sinon.stub(db.users, 'findOne').returns(Promise.resolve(data));
+    const user = new User({id: data.id});
+    const password = await user.getPassword();
+    expect(findStub.callCount).to.equal(1);
+
+    expect(password).to.equal(data.password);
+    db.users.findOne.restore();
   });
 });

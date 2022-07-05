@@ -1,0 +1,12 @@
+.nameRow{
+    padding: 15px;
+    display: flex;
+    height: 100px;
+}
+.nameRow .image{
+    width: 100px;
+    margin-right: 15px;
+}
+.nameRow .name{
+    flex: 1;
+}

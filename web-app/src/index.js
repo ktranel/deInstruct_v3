@@ -2,23 +2,29 @@ import React, {Suspense} from 'react';
 import ReactDOM from 'react-dom';
 import {Routes, BrowserRouter as Router, Route} from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
+import configureStore from "./store/configureStore";
+import { Provider } from 'react-redux';
 import 'normalize.css';
 import "shed-css/dist/index.css";
 import './styles.css';
 
 // pages
-import Login from "./pages/login/login";
+import AuthWrapper from "./pages/authWrapper/authWrapper";
+
+const store = configureStore();
 
 ReactDOM.render(
     <React.StrictMode>
         <Router>
-            <div className="app-container">
-                <Suspense fallback={<div></div>}>
-                    <Routes>
-                        <Route path="/" exact element={<Login/>} />
-                    </Routes>
-                </Suspense>
-            </div>
+            <Provider store={store}>
+                <div className="app-container">
+                    <Suspense fallback={<div></div>}>
+                        <Routes>
+                            <Route path="*" exact element={<AuthWrapper/>} />
+                        </Routes>
+                    </Suspense>
+                </div>
+            </Provider>
         </Router>
     </React.StrictMode>,
     document.getElementById('root')
